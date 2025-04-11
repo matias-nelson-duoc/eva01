@@ -1,0 +1,22 @@
+import json
+from datetime import datetime, timedelta
+
+# Abrimos el archivo JSON
+with open("myfile.json", "r") as archivo:
+    json_file = archivo
+    ourjson = json.load(json_file)
+
+# Extraemos valores
+token = ourjson.get("access_token")
+expira_en = ourjson.get("expires_in")
+emitido_en_str = ourjson.get("issued_at")
+
+# Parseamos la fecha de emisión a objeto datetime
+emitido_en = datetime.strptime(emitido_en_str, "%Y-%m-%dT%H:%M:%S")
+hora_expiracion = emitido_en + timedelta(seconds=expira_en)
+
+# Imprimimos resultados
+print("🔐 Token:", token)
+print("⏳ Tiempo restante antes de expirar:", expira_en, "segundos")
+print("🕒 El token expirará a las:", hora_expiracion.strftime("%H:%M:%S del %d-%m-%Y"))
+
